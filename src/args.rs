@@ -11,7 +11,7 @@ const ABOUT: &'static str = r#"今天吃什么？
 使用方法：
 random-food (随机生成一个食物)
 random-food list (查看菜单)
-random-food -o 素菜 荤菜 -c 2 (查看食物种类)"#;
+random-food -o 素菜 荤菜 -c 2 (筛选食物菜单后生成两个随机食物)"#;
 const VERSION: &'static str = env!("CARGO_PKG_VERSION");
 const HELP_TEMPLATE: &'static str = r#"
 {about}
