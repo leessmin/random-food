@@ -4,7 +4,6 @@ version = "0.1.0"
 edition = "2024"
 description = "一个随机食物生成器"
 authors = ["leessmin"]
-license = "GNU General Public License v3.0"
 license-file = "LICENSE.txt"
 
 [dependencies]
