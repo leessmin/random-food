@@ -1,7 +1,7 @@
 # Maintainer: leessmin <1442772970@qq.com>
 
 pkgname=random-food
-pkgver=0.0.1
+pkgver=0.2.0
 pkgrel=1
 pkgdesc="一个随机食物生成器"
 arch=('x86_64')

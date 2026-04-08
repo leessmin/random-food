@@ -1,6 +1,6 @@
 [package]
 name = "random-food"
-version = "0.1.0"
+version = "0.2.0"
 edition = "2024"
 description = "一个随机食物生成器"
 authors = ["leessmin"]
