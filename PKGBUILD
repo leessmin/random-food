@@ -8,8 +8,8 @@ arch=('x86_64')
 url="https://github.com/leessmin/random-food"
 license=('GPLv3')
 options=('!strip')
-source=("https://github.com/leessmin/random-food/releases/download/0.0.1/random-food")
-sha256sums=('c54236b40d1d3644015ef9e8be8a9093ad157e797c560a8d61ee14e036814439')
+source=("https://github.com/leessmin/random-food/releases/download/0.2.0/random-food")
+sha256sums=('c553aadfb76157a52a374f22c2fec1fe34d6399ca58eefff47b26e0e715066eb')
 
 package() {
         install -Dm755 "random-food" "$pkgdir/usr/bin/random-food"
