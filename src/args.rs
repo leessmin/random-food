@@ -65,7 +65,6 @@ fn cli() -> ArgMatches {
                 .value_parser(clap::value_parser!(usize)),
         )
         .subcommand(Command::new("list").short_flag('l').about("食物种类列表"))
-        // .subcommand(Command::new("count").short_flag('c').about("食物数量"))
         .help_template(HELP_TEMPLATE)
         .get_matches()
 }
@@ -87,6 +86,11 @@ fn list_subcommand() -> Result<(), Box<dyn std::error::Error>> {
     Ok(())
 }
 
+// https://raw.githubusercontent.com/Anduin2017/HowToCook/refs/heads/master/
+// https://github.com/Anduin2017/HowToCook/blob/master/
+const COURSE_URL_PREFIX: &'static str =
+    "https://raw.githubusercontent.com/Anduin2017/HowToCook/refs/heads/master/";
+
 fn global_command(matches: ArgMatches) -> Result<(), Box<dyn std::error::Error>> {
     let option = matches
         .get_many::<String>("option")
@@ -103,14 +107,10 @@ fn global_command(matches: ArgMatches) -> Result<(), Box<dyn std::error::Error>>
         .collect();
 
     foods.shuffle(&mut rand::rng());
-    // https://raw.githubusercontent.com/Anduin2017/HowToCook/refs/heads/master/
-    // https://github.com/Anduin2017/HowToCook/blob/master/
-    foods.iter().take(*count).for_each(|food| {
-        println!(
-            "{} -> https://raw.githubusercontent.com/Anduin2017/HowToCook/refs/heads/master/{}",
-            food.name, food.courses
-        )
-    });
+    foods
+        .iter()
+        .take(*count)
+        .for_each(|food| println!("{} -> {COURSE_URL_PREFIX}{}", food.name, food.courses));
 
     Ok(())
 }

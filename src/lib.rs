@@ -1,5 +1,6 @@
 pub mod args;
 pub mod crawler;
+pub mod store;
 
 pub const FOOD_MENU_CATEGORY: [&str; 10] = [
     "素菜",

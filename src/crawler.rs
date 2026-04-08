@@ -2,11 +2,16 @@ use std::collections::HashMap;
 
 use regex::Regex;
 
-use crate::FOOD_MENU_CATEGORY;
+use crate::{
+    FOOD_MENU_CATEGORY,
+    crawler::releases::get_releases,
+    store::{self, StoreName},
+};
+
+pub mod releases;
 
 const FOOD_MENU_URL: &str =
     "https://raw.githubusercontent.com/Anduin2017/HowToCook/refs/heads/master/README.md";
-
 
 // 食物
 #[derive(Debug, Clone)]
@@ -69,7 +74,32 @@ fn source_md_to_category(md: &str) -> HashMap<String, Vec<Food>> {
 }
 
 pub fn get_food_menu() -> Result<HashMap<String, Vec<Food>>, Box<dyn std::error::Error>> {
-    let md = crawler_menu_md()?;
+    // 判断本地是否存在菜单
+    let md = if store::judge_store_exists(StoreName::README) {
+        let origin_version = get_releases(whoami::username()?.as_str())?;
+        let local_version = store::store_read(StoreName::VERSION)?;
+
+        println!(
+            "远程菜单v{}:本地菜单v{}\n----->>>>><<<<<-----",
+            origin_version, local_version
+        );
+        let md = if origin_version == local_version {
+            store::store_read(StoreName::README)?
+        } else {
+            let md = crawler_menu_md()?;
+            store::store_write(StoreName::README, md.as_bytes())?;
+            store::store_write(StoreName::VERSION, origin_version.as_bytes())?;
+            md
+        };
+        md
+    } else {
+        println!("本地菜单不存在，正在获取远程菜单...\n----->>>>><<<<<-----");
+        let md = crawler_menu_md()?;
+        let origin_version = get_releases(whoami::username()?.as_str())?;
+        store::store_write(StoreName::README, md.as_bytes())?;
+        store::store_write(StoreName::VERSION, origin_version.as_bytes())?;
+        md
+    };
 
     Ok(source_md_to_category(&md))
 }
